@@ -21,3 +21,4 @@ able to add new books; if you have an online cookbook, you need a way to add
 recipes; etc. In other words, you cannot rely on using the Django admin panel for
 adding data.
 ```
+you can read the full project [View Here] 
