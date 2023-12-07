@@ -21,4 +21,4 @@ able to add new books; if you have an online cookbook, you need a way to add
 recipes; etc. In other words, you cannot rely on using the Django admin panel for
 adding data.
 ```
-you can read the full project [Here](https://google.com)
+you can read the full project [Here](https://github.com/AKashton/Outdoor-Buddies-web-app/blob/main/2023%20Assignment%207_%20Final%20Project%20(1).pdf)
