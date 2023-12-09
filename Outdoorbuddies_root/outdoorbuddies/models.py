@@ -37,3 +37,12 @@ class AdventureParticipants(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     adventure = models.ForeignKey(Adventure, on_delete=models.CASCADE)
     status = models.CharField(max_length=100)
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_photo = models.ImageField(upload_to='profile_photos', blank=True)
+    bio = models.TextField(blank=True)
+    interests = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
