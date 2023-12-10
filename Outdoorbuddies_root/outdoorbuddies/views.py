@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
-from .forms import UserRegisterForm, ContactForm
+from .forms import UserRegisterForm, ContactForm, AdventureForm
 from django.http import HttpResponse
 from .models import Adventure
 from django.core.mail import send_mail
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 #register a new user
 def register(request):
     if request.method == 'POST':
@@ -63,6 +65,24 @@ def contact(request):
         form = ContactForm()
 
     return render(request, 'outdoorbuddies/contact.html', {'form': form})
+
+#---------------------------------- login required ----------------------------------------------------
+
+#adventure form creation
+@login_required
+def create_adventure(request):
+    if request.method == 'POST':
+        form = AdventureForm(request.POST, request.FILES)
+        if form.is_valid():
+            adventure = form.save(commit=False)
+            adventure.user = request.user  # Set the current user as the creator of the adventure
+            adventure.save()
+            return redirect('some-view')  # Redirect to a success page or detail view of the adventure
+    else:
+        form = AdventureForm()
+
+    return render(request, 'outdoorbuddies/create_adventure.html', {'form': form})
+
 '''
 handling profile picture uploads
 
