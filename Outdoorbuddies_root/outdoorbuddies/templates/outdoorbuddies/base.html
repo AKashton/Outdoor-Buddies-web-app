@@ -17,7 +17,7 @@
 <body>
     <div class="navbar">
         <div>
-            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'index' %}">Home</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'liked_adventures' %}">Liked Adventures</a>
                 <a href="{% url 'create_adventure' %}">Create Adventure</a>

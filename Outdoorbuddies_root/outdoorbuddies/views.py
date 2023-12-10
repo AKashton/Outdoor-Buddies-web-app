@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, ContactForm
 from django.http import HttpResponse
 from .models import Adventure
 from django.core.mail import send_mail
-from django.http import HttpResponse
+from django.contrib import messages
+#register a new user
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -20,6 +21,12 @@ def index(request):
     adventures = Adventure.objects.all().order_by('-event_datetime')
     return render(request, 'outdoorbuddies/index.html', {'adventures': adventures})
 
+#about us page used to describe outdoorbuddies
+def about(request):
+    return render(request, 'outdoorbuddies/about.html')
+
+#contact us view
+
 #test view to ensure email is working. 
 def send_test_email(request):
     subject = 'Hello from Outdoor Buddies'
@@ -31,7 +38,28 @@ def send_test_email(request):
     
     return HttpResponse("Test email sent!")
 
+#contact us page view
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Process the form data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
 
+            send_mail(
+                f'Message from {name}',  # subject
+                message,  # message
+                email,  # from email
+                ['arcurry@alaska.edu'],  # to email - replace with your email
+            )
+            messages.success(request, 'Your message has been sent successfully!')
+            return redirect('contact')  # Redirect to a success page
+    else:
+        form = ContactForm()
+
+    return render(request, 'outdoorbuddies/contact.html', {'form': form})
 '''
 handling profile picture uploads
 
