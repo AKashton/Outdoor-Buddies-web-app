@@ -45,14 +45,17 @@ def contact(request):
         if form.is_valid():
             # Process the form data
             name = form.cleaned_data['name']
-            email = form.cleaned_data['email']
+            sender_email = form.cleaned_data['email']
             message = form.cleaned_data['message']
 
+             # Compose the email message
+            full_message = f"Sent by: {name}, Email: {sender_email}\n\n{message}"
             send_mail(
-                f'Message from {name}',  # subject
-                message,  # message
-                email,  # from email
-                ['arcurry@alaska.edu'],  # to email - replace with your email
+                subject=f'Message from {name}',  # subject
+                message=full_message,  # message
+                from_email='arcurry@alaska.edu',  # Use your default FROM email in Django settings
+                recipient_list=['arcurry@alaska.edu'],  # to email
+                fail_silently=False,
             )
             messages.success(request, 'Your message has been sent successfully!')
             return redirect('contact')  # Redirect to a success page
