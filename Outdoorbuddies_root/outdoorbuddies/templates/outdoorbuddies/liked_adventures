@@ -1,0 +1,15 @@
+{% extends 'outdoorbuddies/base.html' %}
+
+{% block content %}
+  <h2>Liked Adventures</h2>
+  <div>
+    {% for adventure in adventures %}
+      <div>
+        <h3>{{ adventure.description }}</h3>
+        <!-- Add more adventure details and a link to the adventure page -->
+      </div>
+    {% empty %}
+      <p>You haven't liked any adventures yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

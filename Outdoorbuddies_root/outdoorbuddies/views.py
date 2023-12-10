@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserRegisterForm, ContactForm, AdventureForm
-from django.http import HttpResponse
-from .models import Adventure
+from django.http import HttpResponse, HttpResponseRedirect
+from .models import Adventure, Comment
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 #register a new user
 def register(request):
@@ -66,6 +67,12 @@ def contact(request):
 
     return render(request, 'outdoorbuddies/contact.html', {'form': form})
 
+#for each aventure 
+def adventure_detail(request, adventure_id):
+    adventure = get_object_or_404(Adventure, id=adventure_id)
+    comments = Comment.objects.filter(adventure=adventure).order_by('-timestamp')
+    return render(request, 'outdoorbuddies/adventure_detail.html', {'adventure': adventure, 'comments': comments})
+
 #---------------------------------- login required ----------------------------------------------------
 
 #adventure form creation
@@ -82,6 +89,23 @@ def create_adventure(request):
         form = AdventureForm()
 
     return render(request, 'outdoorbuddies/create_adventure.html', {'form': form})
+
+# liking an adventure
+@login_required
+def liked_adventures(request):
+    user = request.user
+    adventures = user.liked_adventures.all()
+    return render(request, 'outdoorbuddies/liked_adventures.html', {'adventures': adventures})
+
+@login_required
+def like_adventure(request, adventure_id):
+    adventure = Adventure.objects.get(id=adventure_id)
+    if request.user in adventure.likes.all():
+        adventure.likes.remove(request.user)
+    else:
+        adventure.likes.add(request.user)
+    return HttpResponseRedirect(reverse('adventure-detail', args=[adventure_id]))
+
 
 '''
 handling profile picture uploads

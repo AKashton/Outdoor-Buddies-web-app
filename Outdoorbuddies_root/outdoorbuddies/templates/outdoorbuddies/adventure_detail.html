@@ -1,0 +1,25 @@
+{% extends 'outdoorbuddies/base.html' %}
+
+{% block content %}
+  <div class="adventure-detail">
+    <h2>{{ adventure.description }}</h2>
+    <img src="{{ adventure.picture.url }}" alt="Adventure Picture">
+    <p>Location: {{ adventure.location }}</p>
+    <p>Date: {{ adventure.event_datetime|date:"d M Y H:i" }}</p>
+    <p>Tags: {{ adventure.tag.name }}</p>
+    <p>Likes: {{ adventure.total_likes }}</p>
+    <p>Status: {{ adventure.status }}</p>
+    <p>Max Participants: {{ adventure.max_participants }}</p>
+    <a href="{% url 'like_adventure' adventure.id %}">Like</a>
+
+    <h3>Comments</h3>
+    {% for comment in comments %}
+      <div class="comment">
+        <p>{{ comment.user.username }}: {{ comment.text }} - {{ comment.timestamp|date:"d M Y H:i" }}</p>
+      </div>
+    {% empty %}
+      <p>No comments yet.</p>
+    {% endfor %}
+    <!-- Add form to post a comment -->
+  </div>
+{% endblock %}

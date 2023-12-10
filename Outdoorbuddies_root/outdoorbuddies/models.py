@@ -20,9 +20,13 @@ class Adventure(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     event_datetime = models.DateTimeField()
     status = models.CharField(max_length=100)
+    likes = models.ManyToManyField(User, related_name='liked_adventures', blank=True)
 
     def __str__(self):
         return self.description
+    
+    def total_likes(self):
+        return self.likes.count()
 
 # comments on adventures
 class Comment(models.Model):
