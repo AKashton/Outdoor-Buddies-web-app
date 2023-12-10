@@ -15,3 +15,16 @@ def register(request):
 
 def index(request):
     return HttpResponse("Hello, world. You're at my website.")
+
+from django.core.mail import send_mail
+from django.http import HttpResponse
+
+def send_test_email(request):
+    subject = 'Hello from Outdoor Buddies'
+    message = 'This is a test email from your Django application.'
+    email_from = 'arcurry@alaska.edu'
+    recipient_list = ['arcurry@alaska.edu']  # Replace with your email address for testing
+    
+    send_mail(subject, message, email_from, recipient_list)
+    
+    return HttpResponse("Test email sent!")

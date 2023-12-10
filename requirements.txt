@@ -1,3 +1,0 @@
-Django==4.2.8
-Pillow==10.1.0
-Psycopg2==2.9.9

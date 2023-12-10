@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'outdoorbuddies',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -84,8 +85,6 @@ DATABASES = {
     }
 }
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -104,13 +103,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#keep user and password secret
+#env file local to computer containing HOST_USER and HOST_PASSWORD credintals
+import environ
+
+# Initialize environ
+env = environ.Env()
+environ.Env.read_env()
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'  # e.g., 'smtp.sendgrid.net' for SendGrid
+EMAIL_PORT = 587    # e.g., 587 for TLS
+EMAIL_USE_TLS = True             # True if your service uses TLS
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = 'arcurry@alaska.edu'  # Email address that will appear in the 'From' field
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'US/Alaska'
 
 USE_I18N = True
 
