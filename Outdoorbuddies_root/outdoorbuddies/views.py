@@ -11,7 +11,7 @@ def register(request):
         if form.is_valid():
             form.save()
             # can add logic here to automatically log in the user
-            return redirect('some-view')
+            return redirect('outdoorbuddies/index.html')
     else:
         form = UserRegisterForm()
     return render(request, 'outdoorbuddies/register.html', {'form': form})
