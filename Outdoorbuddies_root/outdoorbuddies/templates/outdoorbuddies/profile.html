@@ -1,0 +1,24 @@
+{% extends 'outdoorbuddies/base.html' %}
+
+{% block content %}
+  <div class="profile">
+    <h2>Your Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ profile_form.as_p }}
+      <button type="submit">Update Profile</button>
+    </form>
+  </div>
+
+  <div class="user-adventures">
+    <h2>Your Adventures</h2>
+    {% for adventure in adventures %}
+      <div>
+        <h3>{{ adventure.description }}</h3>
+        <!-- Add more adventure details -->
+      </div>
+    {% empty %}
+      <p>You haven't posted any adventures yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

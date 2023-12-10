@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UserRegisterForm, ContactForm, AdventureForm, CommentForm
+from .forms import UserRegisterForm, ContactForm, AdventureForm, CommentForm, ProfileForm
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Adventure, Comment
 from django.core.mail import send_mail
@@ -118,6 +118,18 @@ def like_adventure(request, adventure_id):
         adventure.likes.add(request.user)
     return HttpResponseRedirect(reverse('adventure-detail', args=[adventure_id]))
 
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect('profile')
+    else:
+        profile_form = ProfileForm(instance=request.user.profile)
+    
+    user_adventures = Adventure.objects.filter(user=request.user)
+    return render(request, 'outdoorbuddies/profile.html', {'profile_form': profile_form, 'adventures': user_adventures})
 
 '''
 handling profile picture uploads

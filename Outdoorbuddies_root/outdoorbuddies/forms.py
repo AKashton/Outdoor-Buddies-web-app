@@ -33,3 +33,12 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'text': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }
+#profile editing form      
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['profile_photo', 'bio', 'interests']
+        widgets = {
+            'bio': forms.Textarea(attrs={'rows': 4}),
+            'interests': forms.TextInput(attrs={'placeholder': 'Hiking, Biking, etc.'}),
+        }
