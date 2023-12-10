@@ -60,7 +60,7 @@ def contact(request):
                 fail_silently=False,
             )
             messages.success(request, 'Your message has been sent successfully!')
-            return redirect('contact')  # Redirect to a success page
+            return redirect('outdoorbuddies/contact.html')  # Redirect to a success page
     else:
         form = ContactForm()
 
@@ -77,7 +77,7 @@ def create_adventure(request):
             adventure = form.save(commit=False)
             adventure.user = request.user  # Set the current user as the creator of the adventure
             adventure.save()
-            return redirect('some-view')  # Redirect to a success page or detail view of the adventure
+            return redirect('outdoorbuddies/index.html')  # Redirect to a success page or detail view of the adventure
     else:
         form = AdventureForm()
 
