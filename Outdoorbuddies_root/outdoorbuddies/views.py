@@ -28,3 +28,27 @@ def send_test_email(request):
     send_mail(subject, message, email_from, recipient_list)
     
     return HttpResponse("Test email sent!")
+
+
+'''
+handling profile picture uploads
+
+def some_profile_update_view(request):
+    if request.method == 'POST':
+        # Assuming you have a form for profile data
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            # Redirect or inform of success
+    else:
+        form = ProfileForm(instance=request.user.profile)
+    return render(request, 'some_template.html', {'form': form})
+
+this is for the form to upload a photo to
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Render form fields here -->
+    <button type="submit">Submit</button>
+</form>
+
+'''
