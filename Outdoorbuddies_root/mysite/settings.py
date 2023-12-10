@@ -135,7 +135,16 @@ MEDIA_URL = '/media/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+# STATICFILES_DIRS is a list of filesystem directories to check when loading static files
+# It's used in development to serve user-uploaded static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'outdoorbuddies/static'),
+]
+
+# STATIC_ROOT is the directory where static files will be stored after using `collectstatic`
+# It's not directly used in development, but it's necessary for production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

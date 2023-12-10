@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 #tags include biking and hiking
 class Tag(models.Model):
@@ -55,6 +57,12 @@ class Profile(models.Model):
     profile_photo = models.ImageField(upload_to='profile_photos', blank=True)
     bio = models.TextField(blank=True)
     interests = models.CharField(max_length=255, blank=True)
+
+    def profile_photo_url(self):
+        if self.profile_photo and hasattr(self.profile_photo, 'url'):
+            return self.profile_photo.url
+        else:
+            return staticfiles_storage.url('outdoorbuddies/images/default.jpg')  # Path to the default image
 
     def __str__(self):
         return f'{self.user.username} Profile'

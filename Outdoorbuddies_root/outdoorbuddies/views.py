@@ -61,7 +61,7 @@ def contact(request):
                 fail_silently=False,
             )
             messages.success(request, 'Your message has been sent successfully!')
-            return redirect('outdoorbuddies/contact.html')  # Redirect to a success page
+            return redirect('contact')  # Redirect to a success page
     else:
         form = ContactForm()
 
