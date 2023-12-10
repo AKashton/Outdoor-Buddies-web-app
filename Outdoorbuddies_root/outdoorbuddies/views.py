@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from .forms import UserRegisterForm
 from django.http import HttpResponse
-
+from .models import Adventure
+from django.core.mail import send_mail
+from django.http import HttpResponse
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -16,9 +18,7 @@ def register(request):
 def index(request):
     return HttpResponse("Hello, world. You're at my website.")
 
-from django.core.mail import send_mail
-from django.http import HttpResponse
-
+#test view to ensure email is working. 
 def send_test_email(request):
     subject = 'Hello from Outdoor Buddies'
     message = 'This is a test email from your Django application.'
