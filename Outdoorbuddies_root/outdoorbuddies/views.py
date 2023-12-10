@@ -16,7 +16,9 @@ def register(request):
     return render(request, 'outdoorbuddies/register.html', {'form': form})
 
 def index(request):
-    return HttpResponse("Hello, world. You're at my website.")
+    # Fetch all adventure postings ordered by most recent
+    adventures = Adventure.objects.all().order_by('-event_datetime')
+    return render(request, 'outdoorbuddies/index.html', {'adventures': adventures})
 
 #test view to ensure email is working. 
 def send_test_email(request):

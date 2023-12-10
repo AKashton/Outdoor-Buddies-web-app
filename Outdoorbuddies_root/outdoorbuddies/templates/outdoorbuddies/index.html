@@ -1,0 +1,17 @@
+{% extends 'outdoorbuddies/base.html' %}
+
+{% block content %}
+  <h2>Latest Adventures</h2>
+  <div>
+    {% for adventure in adventures %}
+      <div>
+        <h3>{{ adventure.description }}</h3>
+        <p>Posted by: {{ adventure.user.username }}</p>
+        <p>Date: {{ adventure.event_datetime|date:"d M Y H:i" }}</p>
+        <!-- Add more adventure details you want to display -->
+      </div>
+    {% empty %}
+      <p>No adventures posted yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

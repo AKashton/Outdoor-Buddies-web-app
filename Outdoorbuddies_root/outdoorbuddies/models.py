@@ -10,7 +10,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
-#this model is the bassi for creating posts for adventures
+#this model is the basis for creating posts for adventures
 class Adventure(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     picture = models.ImageField(upload_to='adventure_pics')
