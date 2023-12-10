@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UserRegisterForm, ContactForm, AdventureForm
+from .forms import UserRegisterForm, ContactForm, AdventureForm, CommentForm
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Adventure, Comment
 from django.core.mail import send_mail
@@ -71,7 +71,19 @@ def contact(request):
 def adventure_detail(request, adventure_id):
     adventure = get_object_or_404(Adventure, id=adventure_id)
     comments = Comment.objects.filter(adventure=adventure).order_by('-timestamp')
-    return render(request, 'outdoorbuddies/adventure_detail.html', {'adventure': adventure, 'comments': comments})
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.user = request.user
+            comment.adventure = adventure
+            comment.save()
+            return redirect('adventure_detail', adventure_id=adventure_id)
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'outdoorbuddies/adventure_detail.html', {'adventure': adventure, 'comments': comments, 'comment_form': comment_form})
 
 #---------------------------------- login required ----------------------------------------------------
 

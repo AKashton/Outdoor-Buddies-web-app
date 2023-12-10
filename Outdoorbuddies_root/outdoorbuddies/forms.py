@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile, Adventure
+from .models import Profile, Adventure, Comment
 
 # user registration for a new user.
 class UserRegisterForm(UserCreationForm):
@@ -24,4 +24,12 @@ class AdventureForm(forms.ModelForm):
         fields = ['picture', 'description', 'max_participants', 'location', 'tag', 'event_datetime', 'status']
         widgets = {
             'event_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+#create a comment under adventure
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
+        widgets = {
+            'text': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }
