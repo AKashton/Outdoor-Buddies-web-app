@@ -4,11 +4,11 @@
   <div class="profile-container">
     <div class="profile-sidebar">
       {% if profile.profile_photo %}
-      <img src="{{ profile.profile_photo.url }}" alt="{{ profile_user.username }}'s Profile Picture" class="profile-photo">
-        {% else %}
-            <!-- Display a default image if profile_photo does not exist -->
-            <img src="{% static 'outdoorbuddies/images/default.jpg' %}" alt="Default Profile Photo" class="profile-photo">
-        {% endif %}
+        <img src="{{ profile.profile_photo.url }}" alt="{{ profile_user.username }}'s Profile Picture" class="profile-photo">
+      {% else %}
+        <!-- Display a default image if profile_photo does not exist -->
+        <img src="{% static 'outdoorbuddies/images/default.jpg' %}" alt="Default Profile Photo" class="profile-photo">
+      {% endif %}
       <h2>{{ profile_user.username }}</h2>
       <p>{{ profile.bio }}</p>
       <div class="tags">
@@ -19,20 +19,21 @@
     </div>
 
     <div class="profile-main-content">
-      <h3>Posted Adventures</h3>
-      {% for adventure in posted_adventures %}
-        <div>
-          <h4>{{ adventure.description }}</h4>
-          <!-- Add more adventure details here -->
+      <h3>Adventures</h3>
+      {% for adventure in user_adventures %}
+        <div class="adventure-post">
+          {% if adventure.picture %}
+            <img src="{{ adventure.picture.url }}" alt="Adventure Picture" class="adventure-photo">
+          {% endif %}
+          <div class="adventure-info">
+            <h4>{{ adventure.location }}</h4>
+            <p>{{ adventure.description }}</p>
+            <p>Time: {{ adventure.event_datetime|date:"d M Y H:i" }}</p>
+            <p>Participants: {{ adventure.max_participants }}</p>
+          </div>
         </div>
-      {% endfor %}
-
-      <h3>Participating Adventures</h3>
-      {% for participant in participating_adventures %}
-        <div>
-          <h4>{{ participant.adventure.description }}</h4>
-          <!-- Add more adventure details here -->
-        </div>
+      {% empty %}
+        <p>{{ profile_user.username }} has no adventures yet.</p>
       {% endfor %}
     </div>
   </div>

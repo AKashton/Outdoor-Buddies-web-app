@@ -67,10 +67,6 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
     padding: 10px;
 }
 
-.adventure-photo {
-    width: 100%;
-    height: auto;
-}
 
 .profile-dropdown {
     position: relative;
@@ -103,6 +99,7 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 .profile-container {
     display: flex;
     margin: 20px;
+    min-height: 80vh;
 }
 
 .profile-sidebar {
@@ -171,6 +168,16 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
     padding: 10px;
 }
 
+.adventure-post-link {
+    text-decoration: none; /* Remove underline from links */
+    color: inherit; /* Inherit text color to prevent default link color */
+    display: block; /* Make the link a block element */
+}
+
+.adventure-post-link:hover {
+    text-decoration: none; /* Remove underline on hover */
+}
+
 .adventure-post {
     display: flex;
     align-items: center;
@@ -179,16 +186,97 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
-.adventure-post img {
-    border-radius: 10px 0 0 10px; /* Only round the left side */
-    width: 150px;
-    height: 100px;
+.adventure-post:hover {
+    background-color: #e0e0e0; /* Light hover effect */
+}
+
+.adventure-photo {
+    width: 150px; /* Fixed width for the photo */
+    height: 100px; /* Fixed height for the photo */
     object-fit: cover;
+    border-radius: 10px 0 0 10px; /* Only round the left side */
 }
 
 .adventure-info {
     padding: 10px;
     flex-grow: 1;
+    color: black; /* Explicitly set text color */
 }
+
+.adventure-info h3 {
+    margin: 0;
+    color: black; /* Explicitly set title color */
+}
+
+.search-results-container {
+    text-align: center;
+}
+
+.results-columns {
+    display: flex;
+    justify-content: center;
+}
+
+.user-profiles-column, .adventures-column {
+    margin: 10px;
+    width: 50%; /* Adjust width as needed */
+}
+
+.user-profile-box {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    margin-bottom: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    padding: 15px; /* Add some padding */
+    cursor: pointer;
+}
+
+.user-profile-link {
+    text-decoration: none; /* Removes underline from links */
+    color: inherit; /* Inherits text color, remove if you have a specific color for links */
+    display: block; /* Makes the link a block element to fill the container */
+}
+
+.user-profile-box:hover {
+    background-color: #e0e0e0;
+}
+.profile-photo-search {
+    width: 120px; /* Make the photo a bit larger */
+    height: 120px;
+    border-radius: 50%; /* Circular profile photos */
+    margin-bottom: 10px; /* Space between photo and username */
+}
+
+.username-search {
+    color: black;
+    font-weight: bold;
+    font-size: 1.2em; /* Larger font size */
+    text-decoration: none; /* Remove underline */
+}
+.user-profile, .adventure-post {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.adventure-info {
+    text-align: center;
+}
+
+.footer a {
+    color: white;          /* Sets the text color to white */
+    text-decoration: underline;  /* Ensures the text is underlined */
+}
+
+.footer a:hover {
+    color:#e0e0e0;
+}
+
+

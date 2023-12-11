@@ -6,15 +6,19 @@
   <div class="content-container">
     <div class="adventure-listings">
       {% for adventure in adventures %}
-        <div class="adventure-post">
-          <a href="{% url 'adventure_detail' adventure.id %}">
-            {% if adventure.picture %}
-              <img src="{{ adventure.picture.url }}" alt="Adventure Picture" class="adventure-photo">
-            {% endif %}
-            <h3>{{ adventure.description }}</h3>
-            <p>Tag: {{ adventure.tag.name }}</p>
-          </a>
-        </div>
+        <a href="{% url 'adventure_detail' adventure.id %}" class="adventure-post-link">
+          <div class="adventure-post">
+              {% if adventure.picture %}
+                  <img src="{{ adventure.picture.url }}" alt="Adventure Picture" class="adventure-photo">
+              {% endif %}
+              <div class="adventure-info">
+                  <h3>{{ adventure.location }}</h3>
+                  <p>{{ adventure.description }}</p>
+                  <p>Time: {{ adventure.event_datetime|date:"d M Y H:i" }}</p>
+                  <p>Participants: {{ adventure.max_participants }}</p>
+              </div>
+          </div>
+        </a>
       {% empty %}
         <p>No adventures posted yet.</p>
       {% endfor %}

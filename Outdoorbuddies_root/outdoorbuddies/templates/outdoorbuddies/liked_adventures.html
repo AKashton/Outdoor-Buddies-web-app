@@ -1,15 +1,26 @@
 {% extends 'outdoorbuddies/base.html' %}
-
+{% load static %}
 {% block content %}
   <h2>Liked Adventures</h2>
-  <div>
-    {% for adventure in adventures %}
-      <div>
-        <h3>{{ adventure.description }}</h3>
-        <!-- Add more adventure details and a link to the adventure page -->
-      </div>
-    {% empty %}
-      <p>You haven't liked any adventures yet.</p>
-    {% endfor %}
+  <div class="content-container">
+    <div class="adventure-listings">
+      {% for adventure in adventures %}
+        <a href="{% url 'adventure_detail' adventure.id %}" class="adventure-post-link">
+          <div class="adventure-post">
+              {% if adventure.picture %}
+                  <img src="{{ adventure.picture.url }}" alt="Adventure Picture" class="adventure-photo">
+              {% endif %}
+              <div class="adventure-info">
+                  <h3>{{ adventure.location }}</h3>
+                  <p>{{ adventure.description }}</p>
+                  <p>Time: {{ adventure.event_datetime|date:"d M Y H:i" }}</p>
+                  <p>Participants: {{ adventure.max_participants }}</p>
+              </div>
+          </div>
+        </a>
+      {% empty %}
+        <p>You haven't liked any adventures yet.</p>
+      {% endfor %}
+    </div>
   </div>
 {% endblock %}

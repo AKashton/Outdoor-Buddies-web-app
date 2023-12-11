@@ -49,14 +49,20 @@ def about(request):
 def user_profile(request, username):
     user = get_object_or_404(User, username=username)
     profile = get_object_or_404(Profile, user=user)
+
+    # Get adventures posted by the user
     posted_adventures = Adventure.objects.filter(user=user)
-    participating_adventures = AdventureParticipants.objects.filter(user=user).select_related('adventure')
+
+    # Get adventures where the user is a participant
+    participating_adventures = Adventure.objects.filter(adventureparticipants__user=user)
+
+    # Combine both QuerySets into a single list, avoiding duplicates
+    user_adventures = (posted_adventures | participating_adventures).distinct()
 
     return render(request, 'outdoorbuddies/user_profile.html', {
         'profile_user': user,
         'profile': profile,
-        'posted_adventures': posted_adventures,
-        'participating_adventures': participating_adventures
+        'user_adventures': user_adventures
     })
 
 #contact us page view

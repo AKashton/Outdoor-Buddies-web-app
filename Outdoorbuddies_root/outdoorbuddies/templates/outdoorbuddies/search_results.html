@@ -1,29 +1,47 @@
 {% extends 'outdoorbuddies/base.html' %}
 {% load static %}
 {% block content %}
+  <div class="search-results-container">
     <h2>Search Results for "{{ query }}"</h2>
 
-    <h3>Profiles</h3>
-    {% for profile in profiles %}
-        <div>
-            <a href="{% url 'user_profile' profile.user.username %}">
-                {% if profile.profile_photo %}
-                    <img src="{{ profile.profile_photo.url }}" alt="{{ profile.user.username }}'s Profile Photo">
-                {% else %}
-                    <img src="{% static 'outdoorbuddies/images/default.jpg' %}" alt="Default Profile Photo">
-                {% endif %}
-                <p>{{ profile.user.username }}</p>
+    <div class="results-columns">
+      <div class="user-profiles-column">
+        <h3>User Profiles</h3>
+        {% for profile in profiles %}
+            <a href="{% url 'user_profile' profile.user.username %}" class="user-profile-link">
+                <div class="user-profile-box">
+                    {% if profile.profile_photo %}
+                        <img src="{{ profile.profile_photo.url }}" alt="{{ profile.user.username }}" class="profile-photo-search">
+                    {% else %}
+                        <img src="{% static 'outdoorbuddies/images/default.jpg' %}" alt="Default Profile Photo" class="profile-photo-search">
+                    {% endif %}
+                    <div class="username-search">{{ profile.user.username }}</div>
+                </div>
             </a>
-        </div>
-    {% endfor %}
+        {% empty %}
+          <p>No profiles found.</p>
+        {% endfor %}
+      </div>
 
-    <h3>Adventures</h3>
-    {% for adventure in adventures %}
-        <div>
-            <h4>{{ adventure.description }}</h4>
-            <!-- Link to adventure detail -->
-        </div>
-    {% empty %}
-        <p>No adventures found.</p>
-    {% endfor %}
+      <div class="adventures-column">
+        <h3>Adventures</h3>
+        {% for adventure in adventures %}
+          <a href="{% url 'adventure_detail' adventure.id %}" class="adventure-post-link">
+          <div class="adventure-post">
+            {% if adventure.picture %}
+              <img src="{{ adventure.picture.url }}" alt="Adventure Picture" class="adventure-photo">
+            {% endif %}
+            <div class="adventure-info">
+              <h4>{{ adventure.location }}</h4>
+              <p>{{ adventure.description }}</p>
+              <p>Time: {{ adventure.event_datetime|date:"d M Y H:i" }}</p>
+              <p>Participants: {{ adventure.max_participants }}</p>
+            </div>
+          </div>
+        {% empty %}
+          <p>No adventures found.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 {% endblock %}
