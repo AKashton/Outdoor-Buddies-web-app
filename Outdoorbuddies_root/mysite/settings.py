@@ -103,6 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = '/'
 #keep user and password secret
 #env file local to computer containing HOST_USER and HOST_PASSWORD credintals
 import environ

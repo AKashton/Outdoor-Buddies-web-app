@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserRegisterForm, ContactForm, AdventureForm, CommentForm, ProfileForm
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Adventure, Comment
+from .models import Adventure, Comment, AdventureParticipants
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-
+from django.contrib.auth.models import User
 #register a new user
 def register(request):
     if request.method == 'POST':
@@ -70,6 +70,7 @@ def contact(request):
 #for each aventure 
 def adventure_detail(request, adventure_id):
     adventure = get_object_or_404(Adventure, id=adventure_id)
+    participants = AdventureParticipants.objects.filter(adventure=adventure)
     comments = Comment.objects.filter(adventure=adventure).order_by('-timestamp')
 
     if request.method == 'POST':
@@ -83,7 +84,7 @@ def adventure_detail(request, adventure_id):
     else:
         comment_form = CommentForm()
 
-    return render(request, 'outdoorbuddies/adventure_detail.html', {'adventure': adventure, 'comments': comments, 'comment_form': comment_form})
+    return render(request, 'outdoorbuddies/adventure_detail.html', {'adventure': adventure, 'participants' : participants, 'comments': comments, 'comment_form': comment_form})
 
 #---------------------------------- login required ----------------------------------------------------
 
@@ -96,12 +97,27 @@ def create_adventure(request):
             adventure = form.save(commit=False)
             adventure.user = request.user  # Set the current user as the creator of the adventure
             adventure.save()
-            return redirect('index')  # Redirect to a success page or detail view of the adventure
+            AdventureParticipants.objects.create(user=request.user, adventure=adventure, is_host=True)
+            return redirect('adventure_detail', adventure.id)
     else:
         form = AdventureForm()
 
     return render(request, 'outdoorbuddies/create_adventure.html', {'form': form})
 
+#remove adventure
+@login_required
+def delete_adventure(request, adventure_id):
+    adventure = get_object_or_404(Adventure, id=adventure_id)
+
+    # Check if the request user is the host
+    if adventure.user == request.user:
+        adventure.delete()
+        messages.success(request, 'Adventure deleted successfully.')
+        return HttpResponseRedirect(reverse('index'))  # Redirect to the home page
+    else:
+        messages.error(request, 'You do not have permission to delete this adventure.')
+        return HttpResponseRedirect(reverse('adventure_detail', args=[adventure_id]))
+    
 # liking an adventure
 @login_required
 def liked_adventures(request):
@@ -111,12 +127,12 @@ def liked_adventures(request):
 
 @login_required
 def like_adventure(request, adventure_id):
-    adventure = Adventure.objects.get(id=adventure_id)
+    adventure = get_object_or_404(Adventure, id=adventure_id)
     if request.user in adventure.likes.all():
         adventure.likes.remove(request.user)
     else:
         adventure.likes.add(request.user)
-    return HttpResponseRedirect(reverse('adventure-detail', args=[adventure_id]))
+    return redirect(reverse('adventure_detail', args=[adventure_id]))
 
 @login_required
 def profile(request):
@@ -131,6 +147,12 @@ def profile(request):
     user_adventures = Adventure.objects.filter(user=request.user)
     return render(request, 'outdoorbuddies/profile.html', {'profile_form': profile_form, 'adventures': user_adventures})
 
+@login_required
+def join_adventure(request, adventure_id):
+    adventure = get_object_or_404(Adventure, id=adventure_id)
+    if not AdventureParticipants.objects.filter(user=request.user, adventure=adventure).exists():
+        AdventureParticipants.objects.create(user=request.user, adventure=adventure)
+    return redirect('adventure_detail', adventure_id=adventure.id)
 '''
 handling profile picture uploads
 

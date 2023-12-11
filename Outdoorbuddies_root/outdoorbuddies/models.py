@@ -36,6 +36,10 @@ class Comment(models.Model):
     text = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    def anonymize_user(self):
+        self.user = None  
+        self.save()
+
     def __str__(self):
         return self.text
 
@@ -48,6 +52,10 @@ class UserLikes(models.Model):
 class AdventureParticipants(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     adventure = models.ForeignKey(Adventure, on_delete=models.CASCADE)
+    is_host = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user.username} - {self.adventure.description}'
     
 
 #profile setup
