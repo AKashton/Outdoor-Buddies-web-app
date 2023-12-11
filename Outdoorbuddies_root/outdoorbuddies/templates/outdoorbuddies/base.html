@@ -19,8 +19,10 @@
             {% else %}
                 <a href="{% url 'register' %}">Register</a>
             {% endif %}
-            <!-- Search Bar Placeholder -->
-            <input type="text" placeholder="Search...">
+            <form action="{% url 'search_results' %}" method="get">
+                <input type="text" name="q" placeholder="Search...">
+                <button type="submit">Search</button>
+            </form>
         </div>
         {% if user.is_authenticated %}
             <div class="profile-info">

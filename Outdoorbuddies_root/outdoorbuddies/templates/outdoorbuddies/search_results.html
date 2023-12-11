@@ -1,0 +1,28 @@
+{% extends 'outdoorbuddies/base.html' %}
+
+{% block content %}
+    <h2>Search Results for "{{ query }}"</h2>
+
+    <h3>Profiles</h3>
+    {% for profile in profiles %}
+        <div>
+            <img src="{{ profile.profile_photo.url }}" alt="{{ profile.user.username }}'s Profile Photo">
+            <p>{{ profile.user.username }}</p>
+            <p>Bio: {{ profile.bio }}</p>
+            <p>Interests: {{ profile.interests.all|join:", " }}</p>
+            <!-- Link to user's profile or adventures -->
+        </div>
+    {% empty %}
+        <p>No profiles found.</p>
+    {% endfor %}
+
+    <h3>Adventures</h3>
+    {% for adventure in adventures %}
+        <div>
+            <h4>{{ adventure.description }}</h4>
+            <!-- Link to adventure detail -->
+        </div>
+    {% empty %}
+        <p>No adventures found.</p>
+    {% endfor %}
+{% endblock %}

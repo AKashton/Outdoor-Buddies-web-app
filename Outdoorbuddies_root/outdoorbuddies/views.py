@@ -1,12 +1,29 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserRegisterForm, ContactForm, AdventureForm, CommentForm, ProfileForm
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Adventure, Comment, AdventureParticipants
+from .models import Adventure, Comment, AdventureParticipants, Profile
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.db.models import Q
+
+#searching for users and adventures
+def search_results(request):
+    query = request.GET.get('q', '')
+    profiles = Profile.objects.filter(
+        Q(user__username__icontains=query)
+    )
+    adventures = Adventure.objects.filter(
+        Q(description__icontains=query) | 
+        Q(user__username__icontains=query)
+    )
+    return render(request, 'outdoorbuddies/search_results.html', {
+        'profiles': profiles, 
+        'adventures': adventures,
+        'query': query
+    })
+
 #register a new user
 def register(request):
     if request.method == 'POST':
