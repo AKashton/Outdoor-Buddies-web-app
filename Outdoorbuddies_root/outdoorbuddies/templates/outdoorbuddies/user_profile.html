@@ -1,9 +1,14 @@
 {% extends 'outdoorbuddies/base.html' %}
-
+{% load static %}
 {% block content %}
   <div class="profile-container">
     <div class="profile-sidebar">
+      {% if profile.profile_photo %}
       <img src="{{ profile.profile_photo.url }}" alt="{{ profile_user.username }}'s Profile Picture" class="profile-photo">
+        {% else %}
+            <!-- Display a default image if profile_photo does not exist -->
+            <img src="{% static 'outdoorbuddies/images/default.jpg' %}" alt="Default Profile Photo" class="profile-photo">
+        {% endif %}
       <h2>{{ profile_user.username }}</h2>
       <p>{{ profile.bio }}</p>
       <div class="tags">
