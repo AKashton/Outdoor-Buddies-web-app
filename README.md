@@ -1,3 +1,12 @@
+#Instructions to run:
+1. you can start a virtual environment here at the Outdoor-Buddies-web-app:
+```bash
+python -m venv venv
+source venv/Scripts/activate (for windiows einvironments)
+
+ ```
+
+
 # Outdoor-Buddies-web-app
 A Django framework website designed for CSCE A490: Web development
 ## the instructions for this project are as follows:
