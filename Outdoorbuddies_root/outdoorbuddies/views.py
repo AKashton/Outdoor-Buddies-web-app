@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserRegisterForm, ContactForm, AdventureForm, CommentForm, ProfileForm
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Adventure, Comment, AdventureParticipants, Profile
+from .models import Adventure, Comment, AdventureParticipants, Profile, User
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -45,18 +45,19 @@ def index(request):
 def about(request):
     return render(request, 'outdoorbuddies/about.html')
 
-#contact us view
+#displays a user profile
+def user_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    profile = get_object_or_404(Profile, user=user)
+    posted_adventures = Adventure.objects.filter(user=user)
+    participating_adventures = AdventureParticipants.objects.filter(user=user).select_related('adventure')
 
-#test view to ensure email is working. 
-def send_test_email(request):
-    subject = 'Hello from Outdoor Buddies'
-    message = 'This is a test email from your Django application.'
-    email_from = 'arcurry@alaska.edu'
-    recipient_list = ['arcurry@alaska.edu']  # Replace with your email address for testing
-    
-    send_mail(subject, message, email_from, recipient_list)
-    
-    return HttpResponse("Test email sent!")
+    return render(request, 'outdoorbuddies/user_profile.html', {
+        'profile_user': user,
+        'profile': profile,
+        'posted_adventures': posted_adventures,
+        'participating_adventures': participating_adventures
+    })
 
 #contact us page view
 def contact(request):

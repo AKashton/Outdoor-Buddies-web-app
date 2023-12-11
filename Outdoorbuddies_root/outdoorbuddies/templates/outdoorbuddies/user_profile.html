@@ -1,0 +1,34 @@
+{% extends 'outdoorbuddies/base.html' %}
+
+{% block content %}
+  <div class="profile-container">
+    <div class="profile-sidebar">
+      <img src="{{ profile.profile_photo.url }}" alt="{{ profile_user.username }}'s Profile Picture" class="profile-photo">
+      <h2>{{ profile_user.username }}</h2>
+      <p>{{ profile.bio }}</p>
+      <div class="tags">
+        {% for tag in profile.interests.all %}
+          <span class="tag">{{ tag.name }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="profile-main-content">
+      <h3>Posted Adventures</h3>
+      {% for adventure in posted_adventures %}
+        <div>
+          <h4>{{ adventure.description }}</h4>
+          <!-- Add more adventure details here -->
+        </div>
+      {% endfor %}
+
+      <h3>Participating Adventures</h3>
+      {% for participant in participating_adventures %}
+        <div>
+          <h4>{{ participant.adventure.description }}</h4>
+          <!-- Add more adventure details here -->
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
