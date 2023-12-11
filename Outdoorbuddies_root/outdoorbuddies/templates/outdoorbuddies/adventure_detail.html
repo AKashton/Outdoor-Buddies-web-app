@@ -10,7 +10,9 @@
     <p>Likes: {{ adventure.total_likes }}</p>
     <p>Status: {{ adventure.status }}</p>
     <p>Max Participants: {{ adventure.max_participants }}</p>
-    <a href="{% url 'like_adventure' adventure.id %}">Like</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'like_adventure' adventure.id %}">Like</a>
+    {% endif %}
 
     <h3>Participants</h3>
     <ul>
