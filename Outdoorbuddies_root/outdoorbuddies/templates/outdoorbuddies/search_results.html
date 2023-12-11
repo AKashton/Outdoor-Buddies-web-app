@@ -1,5 +1,5 @@
 {% extends 'outdoorbuddies/base.html' %}
-
+{% load static %}
 {% block content %}
     <h2>Search Results for "{{ query }}"</h2>
 
@@ -7,12 +7,14 @@
     {% for profile in profiles %}
         <div>
             <a href="{% url 'user_profile' profile.user.username %}">
-                <img src="{{ profile.profile_photo.url }}" alt="{{ profile.user.username }}'s Profile Photo">
+                {% if profile.profile_photo %}
+                    <img src="{{ profile.profile_photo.url }}" alt="{{ profile.user.username }}'s Profile Photo">
+                {% else %}
+                    <img src="{% static 'outdoorbuddies/images/default.jpg' %}" alt="Default Profile Photo">
+                {% endif %}
                 <p>{{ profile.user.username }}</p>
             </a>
         </div>
-    {% empty %}
-        <p>No profiles found.</p>
     {% endfor %}
 
     <h3>Adventures</h3>

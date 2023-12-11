@@ -24,11 +24,39 @@ body {
 }
 
 body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-.navbar { background-color: green; color: white; display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; }
-.navbar a { color: white; padding: 0.5rem; text-decoration: none; }
-.navbar a:hover { background-color: white; color: black; }
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 20px;
+    background-color: green; /* Change as needed */
+}
+.navbar-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.nav-button {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 15px;
+    border: 1px solid black; /* Box around each button */
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+}
+.nav-button:hover {
+    background-color: #e0e0e0; /* Highlight color on hover */
+}
+
 .profile-info { display: flex; align-items: center; }
-.profile-photo-navbar { width: 30px; height: 30px; border-radius: 50%; margin-right: 0.5rem; }
+.profile-photo-navbar { width: 50px; height: 50px; border-radius: 50%; margin-right: 10px; }
+
+.username {
+    font-size: 1.5em;
+    color:white;
+}
 .messages { padding: 10px; margin-bottom: 20px;
 }
 .messages li { list-style: none; margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;
