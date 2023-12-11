@@ -108,10 +108,59 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 }
 
 .profile-photo {
-    width: 150px; /* Adjust the size as needed */
-    height: 150px; /* Ensure this is the same as the width for a perfect circle */
+    width: 250px; /* Adjust the size as needed */
+    height: 250px; /* Ensure this is the same as the width for a perfect circle */
     border-radius: 50%; /* This creates the circular shape */
     object-fit: cover; /* This ensures the image covers the area without being stretched */
     display: block;
     margin: 0 auto; /* Center the image */
+}
+
+.content-container {
+    display: flex;
+    margin: 20px;
+}
+
+.adventure-listings {
+    flex: 1; /* Takes up 1/3 of the space */
+    padding: 20px;
+    overflow-y: auto; /* In case of overflow */
+}
+
+.map-container {
+    flex: 2; /* Takes up 2/3 of the space */
+    display: flex;
+}
+
+#map {
+    flex: 3; /* Adjust the proportion of the map */
+    height: 600px;
+}
+
+#sidebar-map {
+    flex: 1; /* Adjust the proportion of the sidebar */
+    background: #f7f7f7;
+    padding: 10px;
+}
+
+.adventure-post {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.adventure-post img {
+    border-radius: 10px 0 0 10px; /* Only round the left side */
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.adventure-info {
+    padding: 10px;
+    flex-grow: 1;
 }

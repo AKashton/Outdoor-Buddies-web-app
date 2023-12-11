@@ -1,9 +1,10 @@
 {% extends 'outdoorbuddies/base.html' %}
 
+{% load static %}
 {% block content %}
   <h2>Latest Adventures</h2>
-  <div>
-    <div class="adventures-list">
+  <div class="content-container">
+    <div class="adventure-listings">
       {% for adventure in adventures %}
         <div class="adventure-post">
           <a href="{% url 'adventure_detail' adventure.id %}">
@@ -18,4 +19,39 @@
         <p>No adventures posted yet.</p>
       {% endfor %}
     </div>
+
+    <div class="map-container">
+      <div id="sidebar-map">Trail Details</div>
+      <div id="map"></div>
+    </div>
+  </div>
+
+
+  <script>
+    var map = L.map('map').setView([61.2181, -149.9003], 10);  // Coordinates for Anchorage
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Load GeoJSON
+    fetch("{% static 'outdoorbuddies/data/Anchorage_Muni_trails.geojson' %}")
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+              onEachFeature: function (feature, layer) {
+                layer.on('click', function () {
+                    var props = feature.properties;
+                    var trailDetails = '<h3>' + (props.Trail_Name || 'Unknown Trail') + '</h3>';
+                    trailDetails += '<p>Trail System: ' + (props.Trail_System || 'N/A') + '</p>';
+                    trailDetails += '<p>Difficulty: ' + (props.Difficulty || 'N/A') + '</p>';
+
+                    document.getElementById('sidebar-map').innerHTML = trailDetails;
+                });
+              }
+            }).addTo(map);
+        });
+  </script>
+
 {% endblock %}
