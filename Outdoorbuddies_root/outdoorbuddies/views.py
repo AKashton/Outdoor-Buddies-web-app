@@ -96,7 +96,7 @@ def create_adventure(request):
             adventure = form.save(commit=False)
             adventure.user = request.user  # Set the current user as the creator of the adventure
             adventure.save()
-            return redirect('outdoorbuddies/index.html')  # Redirect to a success page or detail view of the adventure
+            return redirect('index')  # Redirect to a success page or detail view of the adventure
     else:
         form = AdventureForm()
 

@@ -21,7 +21,6 @@ class Adventure(models.Model):
     location = models.CharField(max_length=255)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     event_datetime = models.DateTimeField()
-    status = models.CharField(max_length=100)
     likes = models.ManyToManyField(User, related_name='liked_adventures', blank=True)
 
     def __str__(self):
@@ -49,14 +48,14 @@ class UserLikes(models.Model):
 class AdventureParticipants(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     adventure = models.ForeignKey(Adventure, on_delete=models.CASCADE)
-    status = models.CharField(max_length=100)
+    
 
 #profile setup
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_photo = models.ImageField(upload_to='profile_photos', blank=True)
     bio = models.TextField(blank=True)
-    interests = models.CharField(max_length=255, blank=True)
+    interests = models.ManyToManyField(Tag, blank=True)  # Relation to Tag
 
     def profile_photo_url(self):
         if self.profile_photo and hasattr(self.profile_photo, 'url'):

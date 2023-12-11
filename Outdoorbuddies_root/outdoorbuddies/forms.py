@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile, Adventure, Comment
+from .models import Profile, Adventure, Comment, Tag
 
 # user registration for a new user.
 class UserRegisterForm(UserCreationForm):
@@ -21,7 +21,7 @@ class ContactForm(forms.Form):
 class AdventureForm(forms.ModelForm):
     class Meta:
         model = Adventure
-        fields = ['picture', 'description', 'max_participants', 'location', 'tag', 'event_datetime', 'status']
+        fields = ['picture', 'description', 'max_participants', 'location', 'tag', 'event_datetime']
         widgets = {
             'event_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
@@ -40,5 +40,8 @@ class ProfileForm(forms.ModelForm):
         fields = ['profile_photo', 'bio', 'interests']
         widgets = {
             'bio': forms.Textarea(attrs={'rows': 4}),
-            'interests': forms.TextInput(attrs={'placeholder': 'Hiking, Biking, etc.'}),
+            'interests': forms.CheckboxSelectMultiple(),
         }
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['interests'].queryset = Tag.objects.all()

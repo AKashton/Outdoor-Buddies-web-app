@@ -3,15 +3,19 @@
 {% block content %}
   <h2>Latest Adventures</h2>
   <div>
-    {% for adventure in adventures %}
-      <div>
-        <h3>{{ adventure.description }}</h3>
-        <p>Posted by: {{ adventure.user.username }}</p>
-        <p>Date: {{ adventure.event_datetime|date:"d M Y H:i" }}</p>
-        <!-- Add more adventure details you want to display -->
-      </div>
-    {% empty %}
-      <p>No adventures posted yet.</p>
-    {% endfor %}
-  </div>
+    <div class="adventures-list">
+      {% for adventure in adventures %}
+        <div class="adventure-post">
+          <a href="{% url 'adventure_detail' adventure.id %}">
+            {% if adventure.picture %}
+              <img src="{{ adventure.picture.url }}" alt="Adventure Picture" class="adventure-photo">
+            {% endif %}
+            <h3>{{ adventure.description }}</h3>
+            <p>Tag: {{ adventure.tag.name }}</p>
+          </a>
+        </div>
+      {% empty %}
+        <p>No adventures posted yet.</p>
+      {% endfor %}
+    </div>
 {% endblock %}
