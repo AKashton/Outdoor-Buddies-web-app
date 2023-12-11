@@ -16,7 +16,8 @@ def search_results(request):
     )
     adventures = Adventure.objects.filter(
         Q(description__icontains=query) | 
-        Q(user__username__icontains=query)
+        Q(user__username__icontains=query) |
+        Q(location__icontains=query)  # Add location-based filtering
     )
     return render(request, 'outdoorbuddies/search_results.html', {
         'profiles': profiles, 
@@ -177,25 +178,3 @@ def join_adventure(request, adventure_id):
     if not AdventureParticipants.objects.filter(user=request.user, adventure=adventure).exists():
         AdventureParticipants.objects.create(user=request.user, adventure=adventure)
     return redirect('adventure_detail', adventure_id=adventure.id)
-'''
-handling profile picture uploads
-
-def some_profile_update_view(request):
-    if request.method == 'POST':
-        # Assuming you have a form for profile data
-        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            # Redirect or inform of success
-    else:
-        form = ProfileForm(instance=request.user.profile)
-    return render(request, 'some_template.html', {'form': form})
-
-this is for the form to upload a photo to
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <!-- Render form fields here -->
-    <button type="submit">Submit</button>
-</form>
-
-'''
