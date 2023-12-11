@@ -33,12 +33,14 @@
             </button>
         </form>
     {% endif %}
-    <h3>Leave a comment</h3>
-    <form method="post">
-      {% csrf_token %}
-      {{ comment_form.as_p }}
-      <button type="submit">Post Comment</button>
-    </form>
+    {% if user.is_authenticated %}
+      <h3>Leave a comment</h3>
+      <form method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Post Comment</button>
+      </form>
+    {% endif %}
 
     <h3>Comments</h3>
     {% for comment in comments %}
