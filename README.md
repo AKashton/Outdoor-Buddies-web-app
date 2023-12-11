@@ -5,8 +5,16 @@ python -m venv venv
 source venv/Scripts/activate (for windiows einvironments)
 
  ```
-
-
+2. navigate to Outdoorbuddies_root
+3. run:
+```bash
+pip install -r requirements.txt
+```
+4. This will download all the dependencies. You can make migrations if you want for using your own database. but there is a starting database on the github.
+5. run the app:
+```bash
+python manage.py runserver
+```
 # Outdoor-Buddies-web-app
 A Django framework website designed for CSCE A490: Web development
 ## the instructions for this project are as follows:
