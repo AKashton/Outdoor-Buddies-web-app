@@ -1,6 +1,6 @@
 # Visit the Website at https://outdoorbuddies.pythonanywhere.com/
 
-# Instructions to run:
+# Instructions to run for dev environment:
 1. you can start a virtual environment here at the Outdoor-Buddies-web-app:
 ```bash
 python -m venv venv
