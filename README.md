@@ -1,4 +1,4 @@
-# Visit the Website at https://outdoorbuddies.pythonanywhere.com/
+# Visit the Website at https://outdoorbuddies.pythonanywhere.com/ ( no longer being hosted at the moment)
 
 # Instructions to run for dev environment:
 1. you can start a virtual environment here at the Outdoor-Buddies-web-app:
